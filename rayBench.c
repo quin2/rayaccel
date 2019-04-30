@@ -1,6 +1,3 @@
-//Raytracer inspired by Gabriel Gambetta's Computer Graphics from Scratch
-
-//todo: make file for loader, see if it works...
 #include <stdio.h>
 #include <math.h>
 
@@ -35,8 +32,8 @@ struct light{
 };
 
 struct scene{
-	struct sphere spheres[4]; 
-	struct light lights[4];
+	struct sphere spheres[20]; 
+	struct light lights[20];
 	int nspheres;
 	int nlights;
 };
@@ -50,9 +47,9 @@ struct color canvas[1024][768];
 int screenWidth;
 int screenHeight;
 
-int viewWidth;
-int viewHeight;
-int viewDist;
+double viewWidth;
+double viewHeight;
+double viewDist;
 
 void loadScene(char* fileName){
 	FILE *p;
@@ -64,7 +61,7 @@ void loadScene(char* fileName){
 
     fscanf(p, "%lf", &camera.x); fscanf(p, "%lf", &camera.y); fscanf(p, "%lf", &camera.z);
 
-    fscanf(p, "%d", &viewWidth); fscanf(p, "%d", &viewHeight); fscanf(p, "%d", &viewDist);
+    fscanf(p, "%lf", &viewWidth); fscanf(p, "%lf", &viewHeight); fscanf(p, "%lf", &viewDist);
 
     fscanf(p, "%d", &myScene.nspheres);
     for(int i = 0; i < myScene.nspheres; i++){
@@ -97,41 +94,6 @@ void loadScene(char* fileName){
     }
 
     fclose(p);
-}
-
-void setup(){
-	struct point sphereCenter;
-	sphereCenter.x = 0; sphereCenter.y = 0; sphereCenter.z = 4;
-	struct color sphereColor;
-	sphereColor.r = 255; sphereColor.g = 0; sphereColor.b = 0;
-	struct sphere mySphere;
-	mySphere.center = sphereCenter; mySphere.color = sphereColor; mySphere.r = 1;
-	myScene.spheres[0] = mySphere; myScene.nspheres = 1;
-
-	struct light ambient;
-	ambient.type = 0;
-	ambient.i = 0.2;
-
-	struct light point;
-	point.type = 1;
-	struct point lc1;
-	lc1.x = 2; lc1.y = 1; lc1.z = 0;
-	point.center = lc1;
-	point.i = 0.6;
-
-	struct light directional;
-	directional.type = 2;
-	struct point lc2;
-	lc2.x = 1; lc2.y = 4; lc2.z = 4;
-	directional.direction = lc2;
-	directional.i = 0.2;
-
-	myScene.nlights = 3;
-	myScene.lights[0] = ambient; myScene.lights[1] = point; myScene.lights[2] = directional;
-
-	bgColor.r = 0; bgColor.g = 0; bgColor.b = 0;
-
-	camera.x = 0; camera.y = 0; camera.z = 0;
 }
 
 //how to get function to return struct?
@@ -254,7 +216,6 @@ void save(struct color canvas[screenWidth][screenHeight]){ //pass in array in C
 
 int main(int argc, char* argv[]){
 	loadScene(argv[1]);
-	//setup();
 
 	struct point origin;
 	origin.x = 0; origin.y = 0; origin.z = 0;

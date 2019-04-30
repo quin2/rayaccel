@@ -1,5 +1,5 @@
 rayBench is a simple raytracer designed to be run with different accelerator frameworks. It only does spheres
-and basic lighting for now, I might add more things later.
+and basic lighting for now, I might add more things later. Inspired by Gabriel Gambetta's Computer Graphics from Scratch.
 
 To run, do ./a.out (input filename)
 
