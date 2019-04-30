@@ -31,3 +31,4 @@ lightIntensity(double)
 
 ...
 
+TODO: add animation function for camera!

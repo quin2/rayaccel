@@ -32,8 +32,8 @@ struct light{
 };
 
 struct scene{
-	struct sphere spheres[20]; 
-	struct light lights[20];
+	struct sphere spheres[30]; 
+	struct light lights[4];
 	int nspheres;
 	int nlights;
 };
