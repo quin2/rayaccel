@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <math.h>
 
+#define PI 3.14159265359
+
 struct point{
 	double x;
 	double y;
@@ -158,13 +160,42 @@ double computeLighting(struct point P, struct point N){
 	return i;
 }
 
-struct color traceSphere(struct point origin, struct point target, double t_min, double t_max){
+struct color traceSphere(struct point origin, struct point target, double t_min, double t_max, int day){
 	double closest_t = INFINITY;
 	struct sphere closest_sphere; //how to do NULL in C?
 	closest_sphere.r = 0;
 	
 	for(int i = 0; i < myScene.nspheres; i++){
 		struct sphere temp = myScene.spheres[i];
+
+		//begin super specific animation-related code
+		if(i == 1){
+			double c = ((2.0 * PI) / 365.0) * (double)day;
+			double xoff = sin(c) * 1.1;
+			double zoff =  3 - (cos(c) * 1.1);
+
+			//printf("%lf %lf\n", xoff, zoff);
+
+			temp.center.x = xoff;
+			temp.center.z = zoff;
+		}
+
+		if(i == 2){
+			double c = ((2.0 * PI) / 365.0) * (double)day;
+			double xoff = sin(c) * 1.1;
+			double zoff =  3 - (cos(c) * 1.1);
+
+			double c2 = ((2.0 * PI) / 27) * (double)day;
+			double xoff2 = xoff + (sin(c2) * 0.02);
+			double zoff2 =  zoff - (cos(c2) * 0.02);
+
+			//printf("%lf %lf\n", xoff2, zoff2);
+
+			temp.center.x = xoff2;
+			temp.center.z = zoff2;
+		}
+
+		//now back to the regular program
 
 		struct res inter = intersectRaySphere(origin, target, temp);
 
@@ -223,14 +254,20 @@ int main(int argc, char* argv[]){
 
 	struct point origin;
 	origin.x = 0; origin.y = 0; origin.z = 0;
-	for(int y = -(screenHeight / 2); y < screenHeight / 2; y++){
-		for(int x = -(screenWidth / 2); x < screenWidth / 2; x++){
-			struct point target = CanvasToViewport(x, y);
 
-			canvas[x + (screenWidth / 2)][y + (screenHeight / 2)] = traceSphere(origin, target, 1, INFINITY);
+	int day = 0;
+	for(day = 0; day <= 5; day++){
+
+		for(int y = -(screenHeight / 2); y < screenHeight / 2; y++){
+			for(int x = -(screenWidth / 2); x < screenWidth / 2; x++){
+				struct point target = CanvasToViewport(x, y);
+
+				canvas[x + (screenWidth / 2)][y + (screenHeight / 2)] = traceSphere(origin, target, 1, INFINITY, day);
+			}
 		}
+
+		save(canvas, day);
 	}
 
-	save(canvas, 0);
 	return 0;
 }

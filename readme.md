@@ -31,4 +31,4 @@ lightIntensity(double)
 
 ...
 
-TODO: add animation function for camera!
+Animation program to generate 30fps animation of earth revloving around sun with the moon is in animation folder. rayBench_animated4.c is the most recent version that can be compiled with OpenACC. It should output 365 frames, with each frame representing a day.
