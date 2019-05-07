@@ -265,7 +265,7 @@ int main(int argc, char* argv[]){
 	int day = 0;
 	for(day = 0; day <= 365; day++){
 
-#pragma acc parallel loop collapse(2) copy(canvas[:][:]) copyin(day, myScene)
+#pragma acc parallel loop collapse(2) copyout(canvas[:][:]) copyin(day, myScene)
 		for(int y = -(480 / 2); y < 480 / 2; y++){
 			for(int x = -(854 / 2); x < 854 / 2; x++){
 				struct point origin; origin.x = 0; origin.y =0; origin.z = 0;

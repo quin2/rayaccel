@@ -31,4 +31,4 @@ lightIntensity(double)
 
 ...
 
-Animation program to generate 30fps animation of earth revloving around sun with the moon is in animation folder. rayBench_animated4.c is the most recent version that can be compiled with OpenACC. It should output 365 frames, with each frame representing a day.
+Animation program to generate 30fps animation of earth revloving around sun with the moon is in animation folder. rayBench_animated4.c is the most recent version that can be compiled with OpenACC. It should output 365 frames, with each frame representing a day. A folder titled 'output' must be in the same directory as the executeable. Run with the input fiile, solarSystem.q3d, as an argument. 
